@@ -63,7 +63,7 @@
         android:layout_marginBottom="4dp"
         android:ems="10"
         android:hint="@string/txt_color"
-        android:inputType="numberDecimal"
+        android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.503"

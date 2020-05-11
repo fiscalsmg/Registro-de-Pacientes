@@ -42,6 +42,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_update.setOnClickListener(this);
         btn_delete.setOnClickListener(this);
 
+
+
+            btn_update.setEnabled(false);
+            btn_delete.setEnabled(false);
+
+
+
     }
 
     @Override
@@ -108,7 +115,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
                 edt_raza.setText(fila.getString(0));
                 edt_color.setText(fila.getString(1));
-
+                //activa los botones para poder actualizar o eliminar
+                btn_update.setEnabled(true);
+                btn_delete.setEnabled(true);
                 BaseDeDatos.close();
 
             }else{
@@ -182,6 +191,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }else{
             Toast.makeText(this,"Ingresa ID de la tortuga a eliminar", Toast.LENGTH_SHORT).show();
 
+        }
+
+        if(BaseDeDatos!=null){
+            btn_update.setEnabled(false);
+            btn_delete.setEnabled(false);
         }
     }
 
