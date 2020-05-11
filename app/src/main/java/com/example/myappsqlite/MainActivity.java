@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.database.Cursor;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -15,11 +14,14 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.zxing.integration.android.IntentIntegrator;
+import com.google.zxing.integration.android.IntentResult;
+
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener {
 
     EditText edt_id, edt_raza, edt_color;
-    Button btn_create, btn_read, btn_update, btn_delete;
+    Button btn_create, btn_read, btn_update, btn_delete, btn_lector;
     SQLiteDatabase BaseDeDatos = null;
     ConexionBD admin;
     TextView tv1;
@@ -40,11 +42,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_read = findViewById(R.id.btn_read);
         btn_update = findViewById(R.id.btn_update);
         btn_delete = findViewById(R.id.btn_delete);
+        btn_lector = findViewById(R.id.btn_lector);
+
 
         btn_create.setOnClickListener(this);
         btn_read.setOnClickListener(this);
         btn_update.setOnClickListener(this);
         btn_delete.setOnClickListener(this);
+        btn_lector.setOnClickListener(this);
+
 
 
         btn_update.setEnabled(false);
@@ -69,9 +75,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             case R.id.btn_delete:
                 borrar();
                 break;
+            case R.id.btn_lector:
+                //Se instancia un objeto de la clase IntentIntegrator
+                IntentIntegrator scanIntegrator = new IntentIntegrator(this);
+                //Se procede con el proceso de scaneo
+                scanIntegrator.initiateScan();
+                leerCodigos();
+                break;
 
         }
     }
+
+
     @Override
     public boolean onLongClick(View v) {
         if (v.getId()==R.id.btn_read){
@@ -212,6 +227,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             btn_delete.setEnabled(false);
         }
     }
+//lector de codigos
 
+    private void leerCodigos() {
+        //Se instancia un objeto de la clase IntentIntegrator
+        IntentIntegrator scanIntegrator = new IntentIntegrator(this);
+        //Se procede con el proceso de scaneo
+        scanIntegrator.initiateScan();
+    }
+
+    public void onActivityResult(int requestCode, int resultCode, Intent intent) {
+        //Se obtiene el resultado del proceso de scaneo y se parsea
+        super.onActivityResult(requestCode, resultCode, intent);
+        IntentResult scanningResult = IntentIntegrator.parseActivityResult(requestCode, resultCode, intent);
+        if (scanningResult != null) {
+            //Quiere decir que se obtuvo resultado pro lo tanto:
+            //Desplegamos en pantalla el contenido del código de barra scaneado
+
+            String scanContent = scanningResult.getContents();
+            String id = edt_id.getText().toString();
+
+            edt_id.getText().append("Contenido:" + scanContent);
+
+        } else {
+            //Quiere decir que NO se obtuvo resultado
+            Toast toast = Toast.makeText(getApplicationContext(),
+                    "No se ha recibido datos del scaneo!", Toast.LENGTH_SHORT);
+            toast.show();
+        }
+    }
 
 }
