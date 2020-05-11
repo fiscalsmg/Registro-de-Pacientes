@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_create.setOnClickListener(this);
         btn_read.setOnClickListener(this);
         btn_update.setOnClickListener(this);
-
+        btn_delete.setOnClickListener(this);
 
     }
 
@@ -57,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 actualizar();
                 break;
             case R.id.btn_delete:
+                borrar();
                 break;
 
         }
@@ -154,6 +155,34 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Toast.makeText(this,"Llena todos los datos!", Toast.LENGTH_SHORT).show();
         }
 
+    }
+
+    private void borrar() {
+        admin = new ConexionBD(this, "tortugaBD", null, 1);
+        BaseDeDatos = admin.getWritableDatabase();//abre bd modo leectura y escritura
+
+        String codigo =edt_id.getText().toString();
+
+        if(!codigo.isEmpty()){//es diferente a vacio
+
+            int cantidad=BaseDeDatos.delete("tortuga","id=" + codigo , null);//delete retorna un entero
+            BaseDeDatos.close();
+
+            edt_id.setText("");
+            edt_raza.setText("");
+            edt_color.setText("");
+
+            if(cantidad==1){
+
+                Toast.makeText(this,"Tortuga Eliminada", Toast.LENGTH_SHORT).show();
+            }else{
+
+                Toast.makeText(this,"Tortuga no existe", Toast.LENGTH_SHORT).show();
+            }
+        }else{
+            Toast.makeText(this,"Ingresa ID de la tortuga a eliminar", Toast.LENGTH_SHORT).show();
+
+        }
     }
 
 }
