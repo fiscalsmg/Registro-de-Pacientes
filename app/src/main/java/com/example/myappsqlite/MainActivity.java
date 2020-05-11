@@ -21,7 +21,7 @@ import com.google.zxing.integration.android.IntentResult;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener {
 
     EditText edt_id, edt_raza, edt_color;
-    Button btn_create, btn_read, btn_update, btn_delete, btn_lector;
+    Button btn_create, btn_read, btn_update, btn_delete, btn_lector, btn_borraDatos;
     SQLiteDatabase BaseDeDatos = null;
     ConexionBD admin;
     TextView tv1;
@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_update = findViewById(R.id.btn_update);
         btn_delete = findViewById(R.id.btn_delete);
         btn_lector = findViewById(R.id.btn_lector);
+        btn_borraDatos = findViewById(R.id.btn_borraDatos);
 
 
         btn_create.setOnClickListener(this);
@@ -50,6 +51,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_update.setOnClickListener(this);
         btn_delete.setOnClickListener(this);
         btn_lector.setOnClickListener(this);
+        btn_borraDatos.setOnClickListener(this);
 
 
 
@@ -76,16 +78,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 borrar();
                 break;
             case R.id.btn_lector:
-                //Se instancia un objeto de la clase IntentIntegrator
-                IntentIntegrator scanIntegrator = new IntentIntegrator(this);
-                //Se procede con el proceso de scaneo
-                scanIntegrator.initiateScan();
                 leerCodigos();
                 break;
-
+            case R.id.btn_borraDatos:
+                limpiar();
+                break;
         }
     }
-
 
     @Override
     public boolean onLongClick(View v) {
@@ -169,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         String raza=edt_raza.getText().toString();
         String color=edt_color.getText().toString();
 
+
         if(!id.isEmpty() && !raza.isEmpty() && !color.isEmpty()){
 
             ContentValues registro=new  ContentValues();
@@ -176,21 +176,27 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             registro.put("raza",raza);
             registro.put("color",color);
 
+
             int cantidad=BaseDeDatos.update("tortuga",registro,"id="+id,null);//retorna un entero la cantidad de registros modificados
             BaseDeDatos.close();
             edt_id.setText("");
             edt_raza.setText("");
             edt_color.setText("");
 
+
             if(cantidad==1){
                 Toast.makeText(this,"Datos de la tortuga modificados", Toast.LENGTH_SHORT).show();
 
             }else{
-                Toast.makeText(this,"la tortuga no exicte", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"No se puede Actualizar el id,\nColoca otro id", Toast.LENGTH_SHORT).show();
 
             }
         }else{
             Toast.makeText(this,"Llena todos los datos!", Toast.LENGTH_SHORT).show();
+        }
+        if(BaseDeDatos!=null){
+            btn_update.setEnabled(false);
+            btn_delete.setEnabled(false);
         }
 
     }
@@ -227,8 +233,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             btn_delete.setEnabled(false);
         }
     }
-//lector de codigos
 
+    //limpia los campos de registro
+    private void limpiar() {
+        edt_id.setText("");
+        edt_raza.setText("");
+        edt_color.setText("");
+    }
+
+
+
+
+    //lector de codigos
     private void leerCodigos() {
         //Se instancia un objeto de la clase IntentIntegrator
         IntentIntegrator scanIntegrator = new IntentIntegrator(this);
@@ -236,6 +252,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         scanIntegrator.initiateScan();
     }
 
+    //metodo copiado de tibu
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         //Se obtiene el resultado del proceso de scaneo y se parsea
         super.onActivityResult(requestCode, resultCode, intent);
