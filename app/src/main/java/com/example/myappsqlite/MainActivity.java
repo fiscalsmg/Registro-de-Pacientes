@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.database.SQLException;
+import android.database.sqlite.SQLiteConstraintException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
@@ -43,10 +45,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_delete.setOnClickListener(this);
 
 
+        btn_update.setEnabled(false);
+        btn_delete.setEnabled(false);
 
-            btn_update.setEnabled(false);
-            btn_delete.setEnabled(false);
-
+        //muestraRegistrosDB();
 
 
     }
@@ -80,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             String raza = edt_raza.getText().toString();
             String color = edt_color.getText().toString();
 
+
             //valida campos
             if (!id.isEmpty() && !raza.isEmpty() && !color.isEmpty()) {
                 if (BaseDeDatos != null) {
@@ -96,8 +99,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Toast.makeText(this, "Registra todos los datos", Toast.LENGTH_SHORT).show();
 
             }
-        } catch (Exception e) {
-            Toast.makeText(this, "Ups!"+e.getMessage(), Toast.LENGTH_SHORT).show();
+        } catch (SQLiteConstraintException e) {
+            Toast.makeText(this, "Ups! verifica id, \nid ya registrado!! ", Toast.LENGTH_SHORT).show();
+
+        }catch (Exception e){
+            Toast.makeText(this, "error!"+e.getMessage(), Toast.LENGTH_SHORT).show();
         }
     }
     private void buscar() {
@@ -197,6 +203,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             btn_update.setEnabled(false);
             btn_delete.setEnabled(false);
         }
+    }
+
+    public void muestraRegistrosDB(){
+        admin = new ConexionBD(this, "tortugaBD", null, 1);
+        BaseDeDatos = admin.getWritableDatabase();//abre bd modo leectura y escritura
+
+        Cursor cursor = BaseDeDatos.rawQuery("SELECT * FROM tortuga", null);
+        int numcol = cursor.getColumnCount();
+        int numren = cursor.getCount();
+        if(numren==0){
+
+        }
+        tv1.setTextSize(13);
+        tv1.append("Cursor con " + numren + " registros\n" + numcol + " columnas\n");
+        while (cursor.moveToNext()) {
+            tv1.append("\n" + cursor.getInt(0) + " " + cursor.getString(1) + " " + cursor.getString(2));
+        }//while
+        cursor.close();
+        BaseDeDatos.close();
+
     }
 
 }
