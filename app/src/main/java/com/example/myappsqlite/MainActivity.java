@@ -2,6 +2,7 @@ package com.example.myappsqlite;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
@@ -36,6 +37,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_delete = findViewById(R.id.btn_delete);
 
         btn_create.setOnClickListener(this);
+        btn_read.setOnClickListener(this);
+
 
     }
 
@@ -86,5 +89,31 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
     private void buscar() {
+        admin = new ConexionBD(this, "tortugaBD", null, 1);
+        BaseDeDatos = admin.getWritableDatabase();//abre bd modo leectura y escritura
+
+        String idtortu=edt_id.getText().toString();
+
+        if(!idtortu.isEmpty()){
+
+            Cursor fila=BaseDeDatos.rawQuery("select raza,color from tortuga where id="+idtortu, null); //variable de seleccion
+
+            if(fila.moveToFirst()){
+                //verifica la consulta aqui decimos donde mostrara el resultado
+
+                edt_raza.setText(fila.getString(0));
+                edt_color.setText(fila.getString(1));
+
+                BaseDeDatos.close();
+
+            }else{
+                Toast.makeText(this,"No existe la tortuga", Toast.LENGTH_SHORT).show();
+                BaseDeDatos.close();
+
+            }
+        }else{
+            Toast.makeText(this,"Ingresa ID", Toast.LENGTH_SHORT).show();
+        }
+
     }
 }
