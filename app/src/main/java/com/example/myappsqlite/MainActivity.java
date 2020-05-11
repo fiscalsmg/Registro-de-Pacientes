@@ -2,6 +2,7 @@ package com.example.myappsqlite;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ContentValues;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
@@ -38,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         btn_create.setOnClickListener(this);
         btn_read.setOnClickListener(this);
+        btn_update.setOnClickListener(this);
 
 
     }
@@ -52,6 +54,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 buscar();
                 break;
             case R.id.btn_update:
+                actualizar();
                 break;
             case R.id.btn_delete:
                 break;
@@ -59,7 +62,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-      private void registrar() {
+
+    private void registrar() {
         try {
             admin = new ConexionBD(this, "tortugaBD", null, 1);
             BaseDeDatos = admin.getWritableDatabase();//abre bd modo leectura y escritura
@@ -116,4 +120,40 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
 
     }
+
+    private void actualizar() {
+        admin = new ConexionBD(this, "tortugaBD", null, 1);
+        BaseDeDatos = admin.getWritableDatabase();//abre bd modo leectura y escritura
+
+
+        String id=edt_id.getText().toString();
+        String raza=edt_raza.getText().toString();
+        String color=edt_color.getText().toString();
+
+        if(!id.isEmpty() && !raza.isEmpty() && !color.isEmpty()){
+
+            ContentValues registro=new  ContentValues();
+            registro.put("id",id);
+            registro.put("raza",raza);
+            registro.put("color",color);
+
+            int cantidad=BaseDeDatos.update("tortuga",registro,"id="+id,null);//retorna un entero la cantidad de registros modificados
+            BaseDeDatos.close();
+            edt_id.setText("");
+            edt_raza.setText("");
+            edt_color.setText("");
+
+            if(cantidad==1){
+                Toast.makeText(this,"Datos de la tortuga modificados", Toast.LENGTH_SHORT).show();
+
+            }else{
+                Toast.makeText(this,"la tortuga no exicte", Toast.LENGTH_SHORT).show();
+
+            }
+        }else{
+            Toast.makeText(this,"Llena todos los datos!", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
 }
