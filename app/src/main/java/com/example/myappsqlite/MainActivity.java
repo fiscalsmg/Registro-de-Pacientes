@@ -3,6 +3,7 @@ package com.example.myappsqlite;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.Cursor;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteConstraintException;
@@ -15,13 +16,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-public class MainActivity extends AppCompatActivity implements View.OnClickListener {
+public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener {
 
     EditText edt_id, edt_raza, edt_color;
     Button btn_create, btn_read, btn_update, btn_delete;
     SQLiteDatabase BaseDeDatos = null;
     ConexionBD admin;
     TextView tv1;
+    Intent inte1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +50,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         btn_update.setEnabled(false);
         btn_delete.setEnabled(false);
 
-        //muestraRegistrosDB();
-
+        btn_read.setOnLongClickListener(this);//click largo manda a otra vista
 
     }
 
@@ -71,7 +72,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         }
     }
-
+    @Override
+    public boolean onLongClick(View v) {
+        if (v.getId()==R.id.btn_read){
+            inte1 = new Intent(this,ConsultaGeneral.class);
+            startActivity(inte1);
+        }
+        return true;
+    }
 
     private void registrar() {
         try {
@@ -205,24 +213,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    public void muestraRegistrosDB(){
-        admin = new ConexionBD(this, "tortugaBD", null, 1);
-        BaseDeDatos = admin.getWritableDatabase();//abre bd modo leectura y escritura
-
-        Cursor cursor = BaseDeDatos.rawQuery("SELECT * FROM tortuga", null);
-        int numcol = cursor.getColumnCount();
-        int numren = cursor.getCount();
-        if(numren==0){
-
-        }
-        tv1.setTextSize(13);
-        tv1.append("Cursor con " + numren + " registros\n" + numcol + " columnas\n");
-        while (cursor.moveToNext()) {
-            tv1.append("\n" + cursor.getInt(0) + " " + cursor.getString(1) + " " + cursor.getString(2));
-        }//while
-        cursor.close();
-        BaseDeDatos.close();
-
-    }
 
 }
