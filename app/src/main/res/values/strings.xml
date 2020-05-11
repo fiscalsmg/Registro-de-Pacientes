@@ -1,0 +1,10 @@
+<resources>
+    <string name="app_name">MyappSQLite</string>
+    <string name="txt_id">Numero de registroo</string>
+    <string name="txt_raza">Raza</string>
+    <string name="txt_color">Color</string>
+    <string name="btn_create">Registra Create</string>
+    <string name="btn_read">Buscar Read</string>
+    <string name="btn_update">Actualiza Update</string>
+    <string name="btn_delete">Elimina Delete</string>
+</resources>
