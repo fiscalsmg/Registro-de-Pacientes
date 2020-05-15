@@ -181,13 +181,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             int total=BaseDeDatos.update("paciente",registro,"id="+id,null);//retorna un entero la cantidad de registros modificados
             BaseDeDatos.close();
 
-            edt_nombreP.setText("");
-            edt_padecimiento.setText("");
+            //edt_nombreP.setText("");
+            //edt_padecimiento.setText("");
 
 
             if(total==1){
                 Toast.makeText(this,"Datos del paciente modificados", Toast.LENGTH_SHORT).show();
-                edt_id.setEnabled(true);
+                edt_id.setEnabled(false);
 
 
             }else{

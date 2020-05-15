@@ -28,11 +28,9 @@ public class ConsultaGeneral extends AppCompatActivity {
         int numcol = cursor.getColumnCount();
         int numren = cursor.getCount();
 
-        tv3.setTextSize(15);
-
-        tv3.append("Registros de las tortugas\nCursor con " + numren + " registros\n" + numcol + " columnas\n");
+        tv3.append("Registros de los pacientes y sus enfermedades\nNúmero de pacientes registrados " + numren + " registros\n\n\n"+"Registros al dia de hoy\n\n");
         while (cursor.moveToNext()) {
-            tv3.append("\n" + cursor.getInt(0) + " " + cursor.getString(1) + " " + cursor.getString(2));
+            tv3.append("\n" + cursor.getInt(0) + "   " + cursor.getString(1) + "   " + cursor.getString(2));
         }//while
         cursor.close();
         BaseDeDatos.close();

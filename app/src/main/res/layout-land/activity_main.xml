@@ -4,14 +4,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/bg_color"
     tools:context=".MainActivity">
 
     <TextView
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Registro de pacientes del hospital"
+        android:text="@string/textView"
         android:textSize="18sp"
+        android:textColor="@color/bgColor"
+        android:gravity="center"
         app:layout_constraintBottom_toTopOf="@+id/guideline"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -39,8 +42,6 @@
         android:hint="@string/txt_id"
         android:inputType="number"
         android:text=""
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.496"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline" />
 
@@ -52,7 +53,6 @@
         android:hint="@string/txt_nombreP"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/txt_padecimiento"
-        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_id" />
 
@@ -65,15 +65,13 @@
         android:hint="@string/txt_padecimiento"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.503"
         app:layout_constraintStart_toStartOf="parent" />
 
 
     <Button
         android:id="@+id/btn_create"
         android:layout_width="217dp"
-        android:layout_height="42dp"
+        android:layout_height="50dp"
         android:layout_marginStart="120dp"
         android:layout_marginLeft="120dp"
         android:text="@string/btn_create"
@@ -83,7 +81,7 @@
     <Button
         android:id="@+id/btn_read"
         android:layout_width="217dp"
-        android:layout_height="42dp"
+        android:layout_height="50dp"
         android:text="@string/btn_read"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/btn_create"
@@ -92,7 +90,7 @@
     <Button
         android:id="@+id/btn_update"
         android:layout_width="217dp"
-        android:layout_height="42dp"
+        android:layout_height="50dp"
         android:layout_marginTop="16dp"
         android:text="@string/btn_update"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -106,7 +104,7 @@
     <Button
         android:id="@+id/btn_delete"
         android:layout_width="217dp"
-        android:layout_height="42dp"
+        android:layout_height="50dp"
         android:layout_marginStart="120dp"
         android:layout_marginLeft="120dp"
         android:layout_marginTop="16dp"
@@ -121,7 +119,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/ic_add_a_photo_black_24dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toEndOf="@+id/txt_id"
         app:layout_constraintTop_toTopOf="@+id/guideline" />
@@ -131,10 +128,10 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/ic_close_black_24dp"
-        app:layout_constraintBottom_toTopOf="@+id/guideline2"
-        app:layout_constraintEnd_toStartOf="@+id/txt_id"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/guideline" />
+        app:layout_constraintBottom_toTopOf="@+id/guideline3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/txt_nombreP"
+        app:layout_constraintTop_toBottomOf="@+id/btn_lector" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
