@@ -147,10 +147,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 btn_update.setEnabled(true);
                 btn_delete.setEnabled(true);
                 BaseDeDatos.close();
+                edt_id.setEnabled(false);
 
             }else{
                 Toast.makeText(this,"No existe la tortuga", Toast.LENGTH_SHORT).show();
                 BaseDeDatos.close();
+                edt_id.setEnabled(true);
 
             }
         }else{
@@ -162,7 +164,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void actualizar() {
         admin = new ConexionBD(this, "tortugaBD", null, 1);
         BaseDeDatos = admin.getWritableDatabase();//abre bd modo leectura y escritura
-
 
         String id=edt_id.getText().toString();
         String raza=edt_raza.getText().toString();
@@ -179,13 +180,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             int cantidad=BaseDeDatos.update("tortuga",registro,"id="+id,null);//retorna un entero la cantidad de registros modificados
             BaseDeDatos.close();
-            edt_id.setText("");
+
             edt_raza.setText("");
             edt_color.setText("");
 
 
             if(cantidad==1){
                 Toast.makeText(this,"Datos de la tortuga modificados", Toast.LENGTH_SHORT).show();
+                edt_id.setEnabled(true);
+
 
             }else{
                 Toast.makeText(this,"No se puede Actualizar el id,\nColoca otro id", Toast.LENGTH_SHORT).show();
@@ -197,6 +200,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if(BaseDeDatos!=null){
             btn_update.setEnabled(false);
             btn_delete.setEnabled(false);
+
         }
 
     }
@@ -204,6 +208,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void borrar() {
         admin = new ConexionBD(this, "tortugaBD", null, 1);
         BaseDeDatos = admin.getWritableDatabase();//abre bd modo leectura y escritura
+        edt_id.setEnabled(true);
 
         String codigo =edt_id.getText().toString();
 
@@ -239,6 +244,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         edt_id.setText("");
         edt_raza.setText("");
         edt_color.setText("");
+        edt_id.setEnabled(true);
+
+        btn_update.setEnabled(false);
+        btn_delete.setEnabled(false);
     }
 
 
