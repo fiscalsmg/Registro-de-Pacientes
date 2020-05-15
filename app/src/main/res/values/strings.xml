@@ -3,8 +3,8 @@
     <string name="txt_id">ID del paciente</string>
     <string name="txt_nombreP">Nombre del paciente</string>
     <string name="txt_padecimiento">Padecimiento</string>
-    <string name="btn_create">Registra Create</string>
-    <string name="btn_read">Buscar Read</string>
-    <string name="btn_update">Actualiza Update</string>
-    <string name="btn_delete">Elimina Delete</string>
+    <string name="btn_create">Registra</string>
+    <string name="btn_read">Buscar</string>
+    <string name="btn_update">Actualiza</string>
+    <string name="btn_delete">Elimina</string>
 </resources>
