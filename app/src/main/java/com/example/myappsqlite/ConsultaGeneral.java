@@ -21,10 +21,10 @@ public class ConsultaGeneral extends AppCompatActivity {
     }
 
     public void muestraRegistrosDB(){
-        admin = new ConexionBD(this, "tortugaBD", null, 1);
+        admin = new ConexionBD(this, "pacienteBD", null, 1);
         BaseDeDatos = admin.getWritableDatabase();//abre bd modo leectura y escritura
 
-        Cursor cursor = BaseDeDatos.rawQuery("SELECT * FROM tortuga", null);
+        Cursor cursor = BaseDeDatos.rawQuery("SELECT * FROM paciente", null);
         int numcol = cursor.getColumnCount();
         int numren = cursor.getCount();
 

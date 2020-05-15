@@ -9,7 +9,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 public class ConexionBD extends SQLiteOpenHelper {
 
 
-    String sentenciaCreacionSQL = "CREATE TABLE tortuga (id INTEGER primary key, " + "raza TEXT, color TEXT)";
+    String sentenciaCreacionSQL = "CREATE TABLE paciente (id INTEGER primary key, " + "nombre TEXT, padecimiento TEXT)";
 
     public ConexionBD(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
@@ -22,7 +22,7 @@ public class ConexionBD extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        db.execSQL("DROP TABLE IF EXISTS tortuga");
+        db.execSQL("DROP TABLE IF EXISTS paciente");
         onCreate(db);
     }
 }

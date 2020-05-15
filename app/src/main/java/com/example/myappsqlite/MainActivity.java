@@ -97,24 +97,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
     private void registrar() {
         try {
-            admin = new ConexionBD(this, "tortugaBD", null, 1);
+            admin = new ConexionBD(this, "pacienteBD", null, 1);
             BaseDeDatos = admin.getWritableDatabase();//abre bd modo leectura y escritura
 
             String id = edt_id.getText().toString();
-            String raza = edt_raza.getText().toString();
-            String color = edt_color.getText().toString();
+            String nombreP = edt_raza.getText().toString();
+            String padecimientoP = edt_color.getText().toString();
 
 
             //valida campos
-            if (!id.isEmpty() && !raza.isEmpty() && !color.isEmpty()) {
+            if (!id.isEmpty() && !nombreP.isEmpty() && !padecimientoP.isEmpty()) {
                 if (BaseDeDatos != null) {
-                    BaseDeDatos.execSQL("INSERT INTO tortuga values(" + id + ",'" + raza + "','" + color + "')");
+                    BaseDeDatos.execSQL("INSERT INTO paciente values(" + id + ",'" + nombreP + "','" + padecimientoP + "')");
                     BaseDeDatos.close();
                     edt_id.setText("");
                     edt_raza.setText("");
                     edt_color.setText("");
 
-                    Toast.makeText(this, "Registro Exitoso!!", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(this, "Paciente Registrado!!", Toast.LENGTH_SHORT).show();
                 }
 
             } else {
@@ -129,14 +129,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
     private void buscar() {
-        admin = new ConexionBD(this, "tortugaBD", null, 1);
+        admin = new ConexionBD(this, "pacienteBD", null, 1);
         BaseDeDatos = admin.getWritableDatabase();//abre bd modo leectura y escritura
 
-        String idtortu=edt_id.getText().toString();
+        String idPaciente=edt_id.getText().toString();
 
-        if(!idtortu.isEmpty()){
+        if(!idPaciente.isEmpty()){
 
-            Cursor fila=BaseDeDatos.rawQuery("select raza,color from tortuga where id="+idtortu, null); //variable de seleccion
+            Cursor fila=BaseDeDatos.rawQuery("select nombre,padecimiento from paciente where id="+idPaciente, null); //variable de seleccion
 
             if(fila.moveToFirst()){
                 //verifica la consulta aqui decimos donde mostrara el resultado
@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 edt_id.setEnabled(false);
 
             }else{
-                Toast.makeText(this,"No existe la tortuga", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"No existe el paciente", Toast.LENGTH_SHORT).show();
                 BaseDeDatos.close();
                 edt_id.setEnabled(true);
 
@@ -162,23 +162,23 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void actualizar() {
-        admin = new ConexionBD(this, "tortugaBD", null, 1);
+        admin = new ConexionBD(this, "pacienteBD", null, 1);
         BaseDeDatos = admin.getWritableDatabase();//abre bd modo leectura y escritura
 
         String id=edt_id.getText().toString();
-        String raza=edt_raza.getText().toString();
-        String color=edt_color.getText().toString();
+        String nombreP=edt_raza.getText().toString();
+        String padecimiento=edt_color.getText().toString();
 
 
-        if(!id.isEmpty() && !raza.isEmpty() && !color.isEmpty()){
+        if(!id.isEmpty() && !nombreP.isEmpty() && !padecimiento.isEmpty()){
 
             ContentValues registro=new  ContentValues();
             registro.put("id",id);
-            registro.put("raza",raza);
-            registro.put("color",color);
+            registro.put("nombre",nombreP);
+            registro.put("padecimiento",padecimiento);
 
 
-            int cantidad=BaseDeDatos.update("tortuga",registro,"id="+id,null);//retorna un entero la cantidad de registros modificados
+            int cantidad=BaseDeDatos.update("paciente",registro,"id="+id,null);//retorna un entero la cantidad de registros modificados
             BaseDeDatos.close();
 
             edt_raza.setText("");
@@ -186,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
             if(cantidad==1){
-                Toast.makeText(this,"Datos de la tortuga modificados", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"Datos del paciente modificados", Toast.LENGTH_SHORT).show();
                 edt_id.setEnabled(true);
 
 
@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     private void borrar() {
-        admin = new ConexionBD(this, "tortugaBD", null, 1);
+        admin = new ConexionBD(this, "pacienteBD", null, 1);
         BaseDeDatos = admin.getWritableDatabase();//abre bd modo leectura y escritura
         edt_id.setEnabled(true);
 
@@ -214,7 +214,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if(!codigo.isEmpty()){//es diferente a vacio
 
-            int cantidad=BaseDeDatos.delete("tortuga","id=" + codigo , null);//delete retorna un entero
+            int cantidad=BaseDeDatos.delete("paciente","id=" + codigo , null);//delete retorna un entero
             BaseDeDatos.close();
 
             edt_id.setText("");
@@ -223,13 +223,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             if(cantidad==1){
 
-                Toast.makeText(this,"Tortuga Eliminada", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"Paciente eliminado", Toast.LENGTH_SHORT).show();
             }else{
 
-                Toast.makeText(this,"Tortuga no existe", Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"El paciente no existe", Toast.LENGTH_SHORT).show();
             }
         }else{
-            Toast.makeText(this,"Ingresa ID de la tortuga a eliminar", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"Ingresa ID del paciente a eliminar", Toast.LENGTH_SHORT).show();
 
         }
 
