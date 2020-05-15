@@ -20,7 +20,7 @@ import com.google.zxing.integration.android.IntentResult;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, View.OnLongClickListener {
 
-    EditText edt_id, edt_raza, edt_color;
+    EditText edt_id, edt_nombreP, edt_padecimiento;
     Button btn_create, btn_read, btn_update, btn_delete, btn_lector, btn_borraDatos;
     SQLiteDatabase BaseDeDatos = null;
     ConexionBD admin;
@@ -35,8 +35,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
         edt_id = findViewById(R.id.txt_id);
-        edt_raza = findViewById(R.id.txt_raza);
-        edt_color = findViewById(R.id.txt_color);
+        edt_nombreP = findViewById(R.id.txt_nombreP);
+        edt_padecimiento = findViewById(R.id.txt_padecimiento);
 
         btn_create = findViewById(R.id.btn_create);
         btn_read = findViewById(R.id.btn_read);
@@ -101,8 +101,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             BaseDeDatos = admin.getWritableDatabase();//abre bd modo leectura y escritura
 
             String id = edt_id.getText().toString();
-            String nombreP = edt_raza.getText().toString();
-            String padecimientoP = edt_color.getText().toString();
+            String nombreP = edt_nombreP.getText().toString();
+            String padecimientoP = edt_padecimiento.getText().toString();
 
 
             //valida campos
@@ -111,8 +111,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     BaseDeDatos.execSQL("INSERT INTO paciente values(" + id + ",'" + nombreP + "','" + padecimientoP + "')");
                     BaseDeDatos.close();
                     edt_id.setText("");
-                    edt_raza.setText("");
-                    edt_color.setText("");
+                    edt_nombreP.setText("");
+                    edt_padecimiento.setText("");
 
                     Toast.makeText(this, "Paciente Registrado!!", Toast.LENGTH_SHORT).show();
                 }
@@ -136,13 +136,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         if(!idPaciente.isEmpty()){
 
-            Cursor fila=BaseDeDatos.rawQuery("select nombre,padecimiento from paciente where id="+idPaciente, null); //variable de seleccion
+            Cursor mueve=BaseDeDatos.rawQuery("select nombre,padecimiento from paciente where id="+idPaciente, null); //variable de seleccion
 
-            if(fila.moveToFirst()){
+            if(mueve.moveToFirst()){
                 //verifica la consulta aqui decimos donde mostrara el resultado
 
-                edt_raza.setText(fila.getString(0));
-                edt_color.setText(fila.getString(1));
+                edt_nombreP.setText(mueve.getString(0));
+                edt_padecimiento.setText(mueve.getString(1));
                 //activa los botones para poder actualizar o eliminar
                 btn_update.setEnabled(true);
                 btn_delete.setEnabled(true);
@@ -166,8 +166,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         BaseDeDatos = admin.getWritableDatabase();//abre bd modo leectura y escritura
 
         String id=edt_id.getText().toString();
-        String nombreP=edt_raza.getText().toString();
-        String padecimiento=edt_color.getText().toString();
+        String nombreP=edt_nombreP.getText().toString();
+        String padecimiento=edt_padecimiento.getText().toString();
 
 
         if(!id.isEmpty() && !nombreP.isEmpty() && !padecimiento.isEmpty()){
@@ -178,14 +178,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             registro.put("padecimiento",padecimiento);
 
 
-            int cantidad=BaseDeDatos.update("paciente",registro,"id="+id,null);//retorna un entero la cantidad de registros modificados
+            int total=BaseDeDatos.update("paciente",registro,"id="+id,null);//retorna un entero la cantidad de registros modificados
             BaseDeDatos.close();
 
-            edt_raza.setText("");
-            edt_color.setText("");
+            edt_nombreP.setText("");
+            edt_padecimiento.setText("");
 
 
-            if(cantidad==1){
+            if(total==1){
                 Toast.makeText(this,"Datos del paciente modificados", Toast.LENGTH_SHORT).show();
                 edt_id.setEnabled(true);
 
@@ -210,16 +210,16 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         BaseDeDatos = admin.getWritableDatabase();//abre bd modo leectura y escritura
         edt_id.setEnabled(true);
 
-        String codigo =edt_id.getText().toString();
+        String id =edt_id.getText().toString();
 
-        if(!codigo.isEmpty()){//es diferente a vacio
+        if(!id.isEmpty()){//es diferente a vacio
 
-            int cantidad=BaseDeDatos.delete("paciente","id=" + codigo , null);//delete retorna un entero
+            int cantidad=BaseDeDatos.delete("paciente","id=" + id , null);//delete retorna un entero
             BaseDeDatos.close();
 
             edt_id.setText("");
-            edt_raza.setText("");
-            edt_color.setText("");
+            edt_nombreP.setText("");
+            edt_padecimiento.setText("");
 
             if(cantidad==1){
 
@@ -242,8 +242,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     //limpia los campos de registro
     private void limpiar() {
         edt_id.setText("");
-        edt_raza.setText("");
-        edt_color.setText("");
+        edt_nombreP.setText("");
+        edt_padecimiento.setText("");
         edt_id.setEnabled(true);
 
         btn_update.setEnabled(false);

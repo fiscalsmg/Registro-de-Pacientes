@@ -53,24 +53,24 @@
         app:layout_constraintTop_toTopOf="@+id/guideline2" />
 
     <EditText
-        android:id="@+id/txt_raza"
+        android:id="@+id/txt_nombreP"
         android:layout_width="282dp"
         android:layout_height="44dp"
         android:ems="10"
-        android:hint="@string/txt_raza"
+        android:hint="@string/txt_nombreP"
         android:inputType="textPersonName"
-        app:layout_constraintBottom_toTopOf="@+id/txt_color"
+        app:layout_constraintBottom_toTopOf="@+id/txt_padecimiento"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/txt_id" />
 
     <EditText
-        android:id="@+id/txt_color"
+        android:id="@+id/txt_padecimiento"
         android:layout_width="282dp"
         android:layout_height="44dp"
         android:layout_marginBottom="4dp"
         android:ems="10"
-        android:hint="@string/txt_color"
+        android:hint="@string/txt_padecimiento"
         android:inputType="textPersonName"
         app:layout_constraintBottom_toTopOf="@+id/guideline3"
         app:layout_constraintEnd_toEndOf="parent"
