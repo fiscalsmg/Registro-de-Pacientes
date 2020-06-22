@@ -110,9 +110,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 if (BaseDeDatos != null) {
                     BaseDeDatos.execSQL("INSERT INTO paciente values(" + id + ",'" + nombreP + "','" + padecimientoP + "')");
                     BaseDeDatos.close();
-                    edt_id.setText("");
-                    edt_nombreP.setText("");
-                    edt_padecimiento.setText("");
+
 
                     Toast.makeText(this, "Paciente Registrado!!", Toast.LENGTH_SHORT).show();
                 }
